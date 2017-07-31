@@ -25,6 +25,8 @@
     "express": "^4.15.3",
     "express-session": "^1.15.4",
     "jsx": "^0.9.89",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
     "reactjs": "^1.0.0"
   }
 }
