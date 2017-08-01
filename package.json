@@ -20,14 +20,17 @@
   },
   "homepage": "https://github.com/InfernoDragon0/njsac#readme",
   "dependencies": {
+    "async": "^2.5.0",
     "body-parser": "^1.17.2",
     "ejs": "^2.5.7",
     "express": "^4.15.3",
     "express-session": "^1.15.4",
     "jsx": "^0.9.89",
+    "mysql": "^2.14.0",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "reactjs": "^1.0.0",
-    "mysql":"^2.14.0"
-  }
+    "tedious": "^2.0.0"
+  },
+  "devDependencies": {}
 }
