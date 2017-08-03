@@ -1,0 +1,20 @@
+[
+  {
+    "adminaccId": "1",
+    "adminId": "1",
+    "adminName": "Ash",
+    "adminPassword": "Pikachu"
+  },
+  {
+    "adminaccId": "2",
+    "adminId": "2",
+    "adminName": "Joy",
+    "adminPassword": "Chansey"
+  },
+  {
+    "adminaccId": "3",
+    "adminId": "3",
+    "adminName": "Kenneth",
+    "adminPassword": "Jirachi"
+  }
+]

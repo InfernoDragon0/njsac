@@ -4,12 +4,12 @@ var Request = require('tedious').Request;
 // Create connection to database
 var config = 
    {
-     userName: 'jeadmin', // update me
-     password: 'JEpassword123', // update me
-     server: 'jeaccounting.database.windows.net', // update me
+     userName: 'accountant', // update me
+     password: 'Abcd1234', // update me
+     server: 'jedb.database.windows.net', // update me
      options: 
         {
-           database: 'jeaccounting' //update me
+           database: 'adminDB' //update me
            , encrypt: true
         }
    }

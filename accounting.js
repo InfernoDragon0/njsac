@@ -4,10 +4,10 @@ var app = express();
 
 
 var connection = mysql.createConnection ({
-    host:'http://www.jeaccounting.database.windows.net',
-    user:'jeadmin',
-    password:'JEpassword123',
-    database:'jeaccounting'
+    host:'jedb.database.windows.net',
+    user:'accountant',
+    password:'Abcd1234',
+    database:'adminDB'
 });
 
 connection.connect(function(error){
@@ -20,7 +20,7 @@ connection.connect(function(error){
 
 app.get('/',function(req,resp){
     //query sql
-    connection.query("SELECT *", function(error,rows,fields){
+    connection.query("SELECT * ", function(error,rows,fields){
         if (!!error){
             console.log('Error in the query');
         }else{
