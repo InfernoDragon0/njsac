@@ -1,36 +1,50 @@
-var express = require('express');
-var mysql = require('mysql');
-var app = express();
 
+var Connection = require("tedious").Connection;
+var Request = require("tedious").Request;
+var TYPES = require("tedious").TYPES;
+var async = require("async");
 
-var connection = mysql.createConnection ({
-    host:'jedb.database.windows.net',
-    user:'accountant',
-    password:'Abcd1234',
-    database:'adminDB'
-});
+// Create connection to database
+var config = {
+    userName: 'accountant',
+    password: 'Abcd1234',
+    server: 'jedb.database.windows.net',
+    options: { 
+        database: 'testDB', encrypt: true }
+};
 
-connection.connect(function(error){
-    if(!!error){
-        console.log('Error');
-    }else{
-        console.log('Connected');
+var connection = new Connection(config);
+
+// Attempt to connect and execute queries if connection goes through
+connection.on('connect', function (err) {
+    if (err) {
+        console.log(err);
+        console.log("Error");
     }
+        console.log("Connected!");
 });
 
-app.get('/',function(req,resp){
-    //query sql
-    connection.query("SELECT * ", function(error,rows,fields){
-        if (!!error){
-            console.log('Error in the query');
-        }else{
-            console.log('Successful query');
-        }
+
+var query = "Select * from adminaccount";
+function xSearch(connection,callback){
+var results=[];//array
+var request = new Request(query, function(error){
+    if (error){
+        return callback(error);
+    }
+    callback(null,results);
 });
+request.on("row",function(rowObject){
+    results.push(rowObject);
 
-})
+});
+connection.execSql(request);
+}
 
-app.listen(1337);
+function test(){
+    xSearch(connection,function(error,results){
+        consule.log(results);
+    });
+}
 
-
-
+test();

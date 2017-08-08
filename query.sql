@@ -38,6 +38,23 @@ CREATE SCHEMA [jpay] AUTHORIZATION [dbo]
 GO
 */
 
+-- Create a new table called 'adminaccount' in schema 'jpay'
+-- Drop the table if it already exists
+IF OBJECT_ID('jpay.adminaccount', 'U') IS NOT NULL
+DROP TABLE jpay.adminaccount
+GO
+-- Create the table in the specified schema
+CREATE TABLE jpay.adminaccount
+(
+    accountId INT NOT NULL PRIMARY KEY, -- primary key column
+    adminId [NVARCHAR](50) NOT NULL,
+    adminName [NVARCHAR](50) NOT NULL,
+    adminPassword [NVARCHAR](50) NOT NULL,
+    accountRights [NVARCHAR](50) NOT NULL
+    -- specify more columns here
+);
+GO
+
 -- Create a new table called 'admindetails' in schema 'jpay'
 -- Drop the table if it already exists
 IF OBJECT_ID('jpay.admindetails', 'U') IS NOT NULL
@@ -78,20 +95,6 @@ SELECT COUNT(*) as adminCount FROM jpay.adminaccount;
 -- Query all admin information
 SELECT e.adminAccountId, e.adminId, e.adminName, e.adminPassword 
 FROM jpay.adminaccount as e
-GO
-*/
-
-/*
--- Drop the table 'adminaccount' in schema 'jpay'
-IF EXISTS (
-    SELECT *
-        FROM sys.tables
-        JOIN sys.schemas
-            ON sys.tables.schema_id = sys.schemas.schema_id
-    WHERE sys.schemas.name = N'jpay'
-        AND sys.tables.name = N'adminacount'
-)
-    DROP TABLE jpay.adminaccount
 GO
 */
 
@@ -206,6 +209,7 @@ GO
 CREATE TABLE jpay.transactions
 (
     transactionsId INT NOT NULL PRIMARY KEY, -- primary key column
+    brainId [NVARCHAR](50) NOT NULL,
     merchantId INT NOT NULL,
     branchId INT NOT NULL,
     customerId [NVARCHAR](50) NOT NULL,
@@ -227,7 +231,7 @@ GO
 CREATE TABLE jpay.refunds
 (
     refundId INT NOT NULL PRIMARY KEY, -- primary key column
-    transactionsId INT NOT NULL,
+    transactionId INT NOT NULL,
     refundReason [NVARCHAR](200) NOT NULL,
     refundStatus [NVARCHAR](50) NOT NULL,
     refundCheck [NCHAR](1) NOT NULL
@@ -244,7 +248,7 @@ GO
 CREATE TABLE jpay.chargebacks
 (
     chargebackId INT NOT NULL PRIMARY KEY, -- primary key column
-    transactionsId INT NOT NULL,
+    transactionId INT NOT NULL,
     customerId [NVARCHAR](50) NOT NULL,
     chargebackAmt [NVARCHAR](50) NOT NULL
     -- specify more columns here

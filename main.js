@@ -2,6 +2,7 @@ var ejs = require('ejs'); //ejs is not express, but is a extension to express
 var path = require("path"); //pathing system
 var bodyParser = require('body-parser'); //parse POST data
 var session = require('express-session'); //temporary to store sensitive data, see if theres better way
+var loginFunctions= require('./nodemodjs/login');
 
 const express = require('express'); //express is good
 const app = express();
@@ -42,3 +43,4 @@ app.get('/dashboard', function (req, res) { //base page
     res.render(path.join(__dirname + '/dashboard.html'));
 });
 
+loginFunctions.checklogin();
