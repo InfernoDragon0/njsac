@@ -26,7 +26,7 @@ connection.on('connect', function(err)
     else
        {
            console.log('sucess');
-        //    queryDatabase()
+            queryDatabase();
        }
    }
  );
@@ -39,7 +39,7 @@ function queryDatabase()
 
        // Read all rows from table
      request = new Request(
-          "SELECT TOP 20 pc.Name as CategoryName, p.name as ProductName FROM [SalesLT].[ProductCategory] pc JOIN [SalesLT].[Product] p ON pc.productcategoryid = p.productcategoryid",
+          "select * from jpay.adminaccount",
              function(err, rowCount, rows) 
                 {
                     console.log(rowCount + ' row(s) returned');
@@ -54,3 +54,11 @@ function queryDatabase()
              });
      connection.execSql(request);
    }
+
+   insert into jpay.adminaccount values (2,'1','test','test');
+
+select * from jpay.adminaccount;
+
+delete from adminaccount where accountId = '1';
+
+update adminaccount set adminName = 'caleb' where accountId = '1';
