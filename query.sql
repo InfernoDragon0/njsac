@@ -46,14 +46,13 @@ GO
 -- Create the table in the specified schema
 CREATE TABLE jpay.adminaccount
 (
-    accountId INT NOT NULL PRIMARY KEY, -- primary key column
-    adminId [NVARCHAR](50) NOT NULL,
+    accountId [NVARCHAR](50) NOT NULL PRIMARY KEY, -- primary key column
     adminName [NVARCHAR](50) NOT NULL,
-    adminPassword [NVARCHAR](50) NOT NULL,
-    accountRights [NVARCHAR](50) NOT NULL
+    adminPassword [NVARCHAR](50) NOT NULL
     -- specify more columns here
 );
 GO
+
 
 -- Create a new table called 'admindetails' in schema 'jpay'
 -- Drop the table if it already exists

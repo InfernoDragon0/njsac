@@ -1,5 +1,5 @@
 
-
+<!DOCTYPE html>
 <html>
     <head>
         <h1>Login to JePay</h1>
@@ -8,7 +8,7 @@
     <body>
         <p>Please Login</p>
         <!-- login-->
-    <form id="login-form">
+    <form id="login-form" method="POST" action="/nodemodjs/login">
     <label for="username" data-error="username is invalid">Username:</label>
     <input type="text" name="username">
     <label for="password" data-error="password is invalid">Password:</label>

@@ -24,27 +24,3 @@ connection.on('connect', function (err) {
         console.log("Connected!");
 });
 
-
-var query = "Select * from adminaccount";
-function xSearch(connection,callback){
-var results=[];//array
-var request = new Request(query, function(error){
-    if (error){
-        return callback(error);
-    }
-    callback(null,results);
-});
-request.on("row",function(rowObject){
-    results.push(rowObject);
-
-});
-connection.execSql(request);
-}
-
-function test(){
-    xSearch(connection,function(error,results){
-        consule.log(results);
-    });
-}
-
-test();

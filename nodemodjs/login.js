@@ -1,27 +1,19 @@
-var fs=require('fs');
+
 var ejs = require('ejs'); //ejs is not express, but is a extension to express
 var path = require('path'); //pathing system
 var bodyParser = require('body-parser'); //parse POST data
-const sql = require('mssql')
 const express = require('express'); //express is good
 const app = express();
+var http = require('http');
 
-var Connection = require('tedious').Connection;
-var Request = require('tedious').Request;
+// create application/x-www-form-urlencoded parser 
+var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
-var config = {
-    userName: 'accountant',
-    password: 'Abcd1234',
-    server: 'jedb.database.windows.net',
-    options: { database: 'testDB', encrypt: true }
-};
- 
-async () => {
-    try {
-        const pool = await sql.connect('mssql://accountant:Abcd1234@jedb.databse.windows.net/testDB')
-        const result = await sql.query`select * from adminaccount`
-        console.dir(result)
-    } catch (err) {
-        // ... error checks 
-    }
-}
+app.post('/login', urlencodedParser, function(req,res){
+    if (!req.body) return res.sendStatus(400)
+    var name = req.body.username;
+    var pW = req.body.password;
+    console.log(name);
+    console.log(pW);
+    res.render('login');
+});
