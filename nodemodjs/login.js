@@ -1,3 +1,4 @@
+var fs=require('fs');
 var ejs = require('ejs'); //ejs is not express, but is a extension to express
 var path = require('path'); //pathing system
 var bodyParser = require('body-parser'); //parse POST data
@@ -18,7 +19,7 @@ var config = {
 async () => {
     try {
         const pool = await sql.connect('mssql://accountant:Abcd1234@jedb.databse.windows.net/testDB')
-        const result = await sql.query`select * from adminaccount where accountId = ${value}`
+        const result = await sql.query`select * from adminaccount`
         console.dir(result)
     } catch (err) {
         // ... error checks 
