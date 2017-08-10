@@ -42,5 +42,3 @@ app.get('/login', function (req, res) { //base page
 app.get('/dashboard', function (req, res) { //base page
     res.render(path.join(__dirname + '/dashboard.html'));
 });
-
-loginFunctions.checklogin();
