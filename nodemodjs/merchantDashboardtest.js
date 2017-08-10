@@ -1,25 +1,24 @@
-const cosmosConfig = require("./BTCosmosconfig");
 const docdbClient = require("documentdb").DocumentClient;
 
-const client = new docdbClient(cosmosConfig.endpoint, { masterKey: cosmosConfig.primaryKey });
-
-const HttpStatusCodes = { NOTFOUND: 404 }
-
+const client = new docdbClient('https://jetransact.documents.azure.com:443/', { masterKey: 'jXxaBwnQTqxkR1igcvDWPy02qjGfJJW3aceLte9FL89hllZSUKMpecFtRIPOEaFs0y6YWXbyT783KbpQf9teFA==' });
 
 const databaseUrl = `dbs/jElement`;
-const collectionUrl = `${databaseUrl}/colls/${cosmosConfig.collection.id}`;
 const collectionUrlcustomerBTDetail = `${databaseUrl}/colls/customerBTDetail`;
 const collectionUrltransactionDetail = `${databaseUrl}/colls/transactionDetail`;
 
-module.exports.insertNewCustomer = insertNewCustomer;
-module.exports.findBTtoken = findBTtoken;
-module.exports.insertTransaction = insertTransaction;
-module.exports.paymentSucessful = paymentSucessful;
+counterMerchantOwing('123');
 
-function countMerchantAmtOwing() {
+///////////////////////////////////Function in Use////////////////////////////////////////////////////////
+
+function counterMerchantOwing(merchantID){
+countMerchantAmtPaid(merchantID);
+countMerchantAmtUnPaid(merchantID);
+};
+
+function countMerchantAmtPaid(merchantID) {
     return new Promise((resolve, reject) => {
-        client.queryDocuments(collectionUrlcustomerBTDetail,
-            "Select * from root r where r.customer_id='" + customerID + "'").toArray((err, results) => {
+        client.queryDocuments(collectionUrltransactionDetail,
+            "SELECT * FROM c where c.merchant_id = '"+merchantID+"' and c.transaction_detail = 'Sucessful - Purchase'" ).toArray((err, results) => {
                 if (err) {
                     console.log(JSON.stringify(err));
                     resolve('-1');
@@ -30,21 +29,49 @@ function countMerchantAmtOwing() {
                         resolve('-1');
                         return;
                     }
+                    var amountOwe = 0;
+                    var counter = 0;
                     for (let result of results) {
-                        var scustmoer_id = result["customer_id"];
-                        var scustomer_BTtoken = result["customer_BTwalletToken"];
-                        console.log("----------");
-                        console.log("Searching Client ID: " + scustmoer_id);
-                        console.log("Coresponding BT Token: " + scustomer_BTtoken);
-                        resolve(scustomer_BTtoken);
+                        amountOwe = amountOwe + parseInt(result["amount"]);
+                        counter = counter + 1;
                     }
+                    console.log(" Total Number of Paid Sales : "+counter);
+                    console.log(" Total Paid Amount owed to merchant : SGD$"+amountOwe);
+                    resolve(amountOwe);
                 }
             });
     });
 };
 
+function countMerchantAmtUnPaid(merchantID) {
+    return new Promise((resolve, reject) => {
+        client.queryDocuments(collectionUrltransactionDetail,
+            "SELECT * FROM c where c.merchant_id = '"+merchantID+"' and c.transaction_detail = 'Pending - Purchase'").toArray((err, results) => {
+                if (err) {
+                    console.log(JSON.stringify(err));
+                    resolve('-1');
+                }
+                else {
+                    if (results.length < 1) {
+                        console.log("No data found");
+                        resolve('-1');
+                        return;
+                    }
+                    var amountOwe = 0;
+                    var counter = 0;
+                    for (let result of results) {
+                        amountOwe = amountOwe + parseInt(result["amount"]);
+                        counter = counter + 1;
+                    }
+                    console.log(" Total Number of Unpaid Sales : "+counter);
+                    console.log(" Total Unpaid Amount owed to merchant : SGD$"+amountOwe);
+                    resolve(amountOwe);
+                }
+            });
+    });
+};
 
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
