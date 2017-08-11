@@ -106,3 +106,5 @@ function createNewAdmin2(newIdId, newUser1, newPass1) {
 // delete from adminaccount where accountId = '1';
 
 // update adminaccount set adminName = 'caleb' where accountId = '1';
+
+module.exports.querydb = queryLogin;
