@@ -7,12 +7,14 @@ const collectionUrlcustomerBTDetail = `${databaseUrl}/colls/customerBTDetail`;
 const collectionUrltransactionDetail = `${databaseUrl}/colls/transactionDetail`;
 
 counterMerchantOwing('123');
+// addRefund('12345','123','Refundment','-100','OrderIDNotInUse');
 
 ///////////////////////////////////Function in Use////////////////////////////////////////////////////////
 
 function counterMerchantOwing(merchantID){
 countMerchantAmtPaid(merchantID);
 countMerchantAmtUnPaid(merchantID);
+countMerchantRefunds(merchantID);
 };
 
 function countMerchantAmtPaid(merchantID) {
@@ -71,6 +73,69 @@ function countMerchantAmtUnPaid(merchantID) {
     });
 };
 
+function countMerchantRefunds(merchantID) {
+    return new Promise((resolve, reject) => {
+        client.queryDocuments(collectionUrltransactionDetail,
+            "SELECT * FROM c where c.merchant_id = '"+merchantID+"' and c.transaction_detail = 'Refund - Purchase'").toArray((err, results) => {
+                if (err) {
+                    console.log(JSON.stringify(err));
+                    resolve('-1');
+                }
+                else {
+                    if (results.length < 1) {
+                        console.log("No data found");
+                        resolve('-1');
+                        return;
+                    }
+                    var amountOwe = 0;
+                    var counter = 0;
+                    for (let result of results) {
+                        amountOwe = amountOwe + parseInt(result["amount"]);
+                        counter = counter + 1;
+                    }
+                    console.log(" Total Number of Refunded Sales : "+counter);
+                    console.log(" Total Refunded Sale : SGD$"+amountOwe);
+                    resolve(amountOwe);
+                }
+            });
+    });
+};
+
+// Amount must be negative for refund//
+function addRefund(customer_id, merchant_id, btTransaction_id, amount, order_id) {
+    return new Promise((resolve, reject) => {
+        client.queryDocuments(collectionUrltransactionDetail,
+            "Select * from c").toArray((err, results) => {
+                if (err) {
+                    console.log(JSON.stringify(err));
+                }
+                else {
+                    var id1 = results.length;
+                    var id = JSON.stringify(id1 + 1);
+                    var transaction_id = id;
+                    var datetime = Date();
+                    console.log('Transaction Recorded');
+                    console.log('Pending Payment - Purchase')
+                    console.log('Transaction ID : ' + transaction_id);
+                    addTransaction2db({
+                        'id': id,
+                        'transaction_id': transaction_id,
+                        'customer_id': customer_id,
+                        'merchant_id': merchant_id,
+                        'btTransaction_id': btTransaction_id,
+                        'datetime': datetime,
+                        'amount': amount,
+                        'order_id': order_id,
+                        'transaction_detail': 'Refund - Purchase'
+                    });
+
+                    resolve(transaction_id);
+
+
+                };
+            });
+    });
+};
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
