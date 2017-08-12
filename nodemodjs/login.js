@@ -1,4 +1,32 @@
+// var Connection = require('tedious').Connection;
+// var Request = require('tedious').Request;
 
+// // Create connection to database
+// var config =
+//     {
+//         userName: 'accountant', // update me
+//         password: 'Abcd1234', // update me
+//         server: 'jedb.database.windows.net', // update me
+//         options:
+//         {
+//             database: 'testDB' //update me
+//             , encrypt: true
+//         }
+//     }
+// var connection = new Connection(config);
+
+// // Attempt to connect and execute queries if connection goes through
+// connection.on('connect', function (err) {
+//     if (err) {
+//         console.log(err)
+//     }
+//     else {
+//         console.log('Connection Successful!')
+//     }
+// }
+// );
+
+function queryLogin(loginUser, loginPass) {
 var Connection = require('tedious').Connection;
 var Request = require('tedious').Request;
 
@@ -19,23 +47,20 @@ var connection = new Connection(config);
 // Attempt to connect and execute queries if connection goes through
 connection.on('connect', function (err) {
     if (err) {
-        console.log(err)
+    console.log(err)
     }
     else {
-        queryLogin('username','password');
-    }
-}
-);
-
-function queryLogin(loginUser, loginPass) {
+    console.log('Connection Successful!')
     request = new Request(
         "select * from jpay.adminaccount where adminName ='" + loginUser + "' and adminPassword ='" + loginPass + "'",
-        function (err, rowCount, rows, res) {
+        function (err, rowCount, rows) {
             if (rowCount == 1) {
-                console.log('Login Successfully!');
+                console.log('Valid Credentials!');
+                console.log('There are "'+rowCount+'" in the database');
             }
             else {
-                console.log('Login Credentials Invalid!');
+                console.log('Invalid Credentials!');
+                console.log('There are "'+rowCount+'" in the database');
             }
             process.exit();
         }
@@ -45,6 +70,11 @@ function queryLogin(loginUser, loginPass) {
         });
     });
     connection.execSql(request);
+    }
+}
+);
 };
+
+queryLogin('test','test');
 
 module.exports.queryLogin = queryLogin;

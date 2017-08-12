@@ -66,15 +66,18 @@ app.get('/dashboard', function (req, res) { //base page
 });
 
 app.post('/login', function(req,res){
-    if (!req.body) return res.sendStatus(400)
+    if (!req.body) {return res.sendStatus(400)
+    }else{
     console.log(req.body.username);
     console.log(req.body.password);
     console.log('Get username and password successfully!');
-    var queryLogin = require('./nodemodjs/login');
-    queryLogin.queryLogin(req.body.username,req.body.password);
-    //var queryFunctions = require('./nodemodjs/loginTest');
-    //queryFunctions.querydb(req.body.username,req.body.password)
+
+    var mLogin = require('./nodemodjs/login');
+    var logReturn = mLogin.queryLogin(req.body.username,req.body.password);
+    }
 });
+
+console.log('server at localhost:5000');
 
 // function staticFile (response,filepath, contentType){
 //     fs.readFile(filepath,function(error,data){
@@ -87,5 +90,3 @@ app.post('/login', function(req,res){
 //         }    
 //     });
 // }
-
-console.log('server at localhost:5000');
