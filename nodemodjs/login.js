@@ -1,19 +1,50 @@
 
-var ejs = require('ejs'); //ejs is not express, but is a extension to express
-var path = require('path'); //pathing system
-var bodyParser = require('body-parser'); //parse POST data
-const express = require('express'); //express is good
-const app = express();
-var http = require('http');
+var Connection = require('tedious').Connection;
+var Request = require('tedious').Request;
 
-// create application/x-www-form-urlencoded parser 
-var urlencodedParser = bodyParser.urlencoded({ extended: false })
+// Create connection to database
+var config =
+    {
+        userName: 'accountant', // update me
+        password: 'Abcd1234', // update me
+        server: 'jedb.database.windows.net', // update me
+        options:
+        {
+            database: 'testDB' //update me
+            , encrypt: true
+        }
+    }
+var connection = new Connection(config);
 
-app.post('/login', urlencodedParser, function(req,res){
-    if (!req.body) return res.sendStatus(400)
-    var name = req.body.username;
-    var pW = req.body.password;
-    console.log(name);
-    console.log(pW);
-    res.render('login');
-});
+// Attempt to connect and execute queries if connection goes through
+connection.on('connect', function (err) {
+    if (err) {
+        console.log(err)
+    }
+    else {
+        queryLogin('username','password');
+    }
+}
+);
+
+function queryLogin(loginUser, loginPass) {
+    request = new Request(
+        "select * from jpay.adminaccount where adminName ='" + loginUser + "' and adminPassword ='" + loginPass + "'",
+        function (err, rowCount, rows, res) {
+            if (rowCount == 1) {
+                console.log('Login Successfully!');
+            }
+            else {
+                console.log('Login Credentials Invalid!');
+            }
+            process.exit();
+        }
+    );
+    request.on('row', function (columns) {
+        columns.forEach(function (column) {
+        });
+    });
+    connection.execSql(request);
+};
+
+module.exports.queryLogin = queryLogin;
