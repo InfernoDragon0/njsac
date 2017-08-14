@@ -1,14 +1,14 @@
 const docdbClient = require("documentdb").DocumentClient;
-
+const moment = require('moment');
 const client = new docdbClient('https://jetransact.documents.azure.com:443/', { masterKey: 'jXxaBwnQTqxkR1igcvDWPy02qjGfJJW3aceLte9FL89hllZSUKMpecFtRIPOEaFs0y6YWXbyT783KbpQf9teFA==' });
 
 const databaseUrl = `dbs/jElement`;
 const collectionUrlcustomerBTDetail = `${databaseUrl}/colls/customerBTDetail`;
 const collectionUrltransactionDetail = `${databaseUrl}/colls/transactionDetail`;
 
-counterMerchantOwing('123');
+// counterMerchantOwing('123');
 // addRefund('12345','123','Refundment','-100','OrderIDNotInUse');
-
+listTranscaations('123',null,null);
 ///////////////////////////////////Function in Use////////////////////////////////////////////////////////
 
 function counterMerchantOwing(merchantID){
@@ -135,6 +135,35 @@ function addRefund(customer_id, merchant_id, btTransaction_id, amount, order_id)
                 };
             });
     });
+};
+
+function listTranscaations(merchantID,startDate,endDate){
+    return new Promise((resolve, reject) => {
+        client.queryDocuments(collectionUrltransactionDetail,
+            "SELECT * FROM c where c.merchant_id = '"+merchantID+"' and c.transaction_detail = 'Sucessful - Purchase'").toArray((err, results) => {
+                if (err) {
+                    console.log(JSON.stringify(err));
+                    resolve('-1');
+                }
+                else {
+                    if (results.length < 1) {
+                        console.log("No data found");
+                        resolve('-1');
+                        return;
+                    }
+                    var dates = new Array;
+                    var counter= -1;
+                    for (let result of results) {
+                        moment(result.datetime).format('L');
+                        counter = counter + 1
+                        dates[counter]=result.datetime;
+                        
+                    }
+                    console.log(dates);
+                    resolve();
+                }
+            });
+});
 };
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
