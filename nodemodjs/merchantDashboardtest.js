@@ -1,4 +1,5 @@
 const docdbClient = require("documentdb").DocumentClient;
+const date = require('date-and-time');
 const moment = require('moment');
 const client = new docdbClient('https://jetransact.documents.azure.com:443/', { masterKey: 'jXxaBwnQTqxkR1igcvDWPy02qjGfJJW3aceLte9FL89hllZSUKMpecFtRIPOEaFs0y6YWXbyT783KbpQf9teFA==' });
 
@@ -8,7 +9,47 @@ const collectionUrltransactionDetail = `${databaseUrl}/colls/transactionDetail`;
 
 // counterMerchantOwing('123');
 // addRefund('12345','123','Refundment','-100','OrderIDNotInUse');
-listTranscaations('123',null,null);
+// listTranscaations('123',null,null);  
+tester();
+
+
+
+
+
+function tester (){
+let now = new Date();
+let now1 = new Date();
+let now2 =  Date();
+var test;
+date.format(now, 'YYYY/MM/DD',test);
+date.format(now1, 'HH:mm:ss');
+console.log (now);
+console.log(now1);
+console.log(now2);
+console.log(test);
+var today = new Date();
+var dd = today.getDate();
+var mm = today.getMonth()+1; //January is 0!
+
+var yyyy = today.getFullYear();
+if(dd<10){
+    dd='0'+dd;
+} 
+if(mm<10){
+    mm='0'+mm;
+} 
+var today = dd+'/'+mm+'/'+yyyy;
+
+if (14/08/2017 <= 14/08/2017){
+    console.log("yay");
+}
+else{
+    console.log("nah");
+}
+
+console.log(today);
+};
+
 ///////////////////////////////////Function in Use////////////////////////////////////////////////////////
 
 function counterMerchantOwing(merchantID){
