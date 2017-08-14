@@ -9,61 +9,61 @@ const collectionUrltransactionDetail = `${databaseUrl}/colls/transactionDetail`;
 
 // counterMerchantOwing('123');
 // addRefund('12345','123','Refundment','-100','OrderIDNotInUse');
-listTransactions('123','1/8/2017','15/8/2017');  
+// listTransactions('123','15/8/2017','16/8/2017');  
 // tester();
 
 
 
 
+/////////////////////////////////// TEST ZONE //////////////////////////////////////////
+// function tester() {
+//     let now = new Date();
+//     let now1 = new Date();
+//     let now2 = Date();
+//     var test;
+//     // date.format(now, 'YYYY/MM/DD', test);
+//     // date.format(now1, 'HH:mm:ss');
+//     // console.log(now);
+//     // console.log(now1);
+//     // console.log(now2);
+//     // console.log(test);
+//     var today = new Date();
+//     var dd = today.getDate();
+//     var mm = today.getMonth() + 1;
 
-function tester() {
-    let now = new Date();
-    let now1 = new Date();
-    let now2 = Date();
-    var test;
-    // date.format(now, 'YYYY/MM/DD', test);
-    // date.format(now1, 'HH:mm:ss');
-    // console.log(now);
-    // console.log(now1);
-    // console.log(now2);
-    // console.log(test);
-    var today = new Date();
-    var dd = today.getDate();
-    var mm = today.getMonth() + 1;
+//     var yyyy = today.getFullYear();
+//     if (dd < 10) {
+//         dd = '0' + dd;
+//     }
+//     if (mm < 10) {
+//         mm = '0' + mm;
+//     }
+//     var today = dd + '/' + mm + '/' + yyyy;
 
-    var yyyy = today.getFullYear();
-    if (dd < 10) {
-        dd = '0' + dd;
-    }
-    if (mm < 10) {
-        mm = '0' + mm;
-    }
-    var today = dd + '/' + mm + '/' + yyyy;
+//     var parts = 'today'.split('/');
+//     var mydate = new Date(parts[2], parts[1] - 1, parts[0]);
+//     // console.log (parts);
+//     var test5 = Date.parse(today);
+//     var test6 = Date.parse(14 / 8 / 2017);
+//     var lala = '14/8/2017'
+//     const [day, month, year] = lala.split("/")
+//     const testday = new Date(year, month - 1, day)
+//     const startday = new Date(2017, 8 - 1, 15)
+//     const endday = new Date(2017, 8 - 1, 17)
+//     // console.log (test5);
+//     // console.log (test6);
+//     console.log('testday :' + testday);
+//     console.log('startday :' + startday);
+//     console.log('endday :' + endday);
+//     if (testday >= startday && testday <= endday) {
+//         console.log("yay");
+//     }
+//     else {
+//         console.log("nah");
+//     }
 
-    var parts = 'today'.split('/');
-    var mydate = new Date(parts[2], parts[1] - 1, parts[0]);
-    // console.log (parts);
-    var test5 = Date.parse(today);
-    var test6 = Date.parse(14 / 8 / 2017);
-    var lala = '14/8/2017'
-    const [day, month, year] = lala.split("/")
-    const testday = new Date(year, month - 1, day)
-    const startday = new Date(2017, 8 - 1, 15)
-    const endday = new Date(2017, 8 - 1, 17)
-    // console.log (test5);
-    // console.log (test6);
-    console.log('testday :' + testday);
-    console.log('startday :' + startday);
-    console.log('endday :' + endday);
-    if (testday >= startday && testday <= endday) {
-        console.log("yay");
-    }
-    else {
-        console.log("nah");
-    }
-
-    console.log(today);
-};
+//     console.log(today);
+// };
 
 ///////////////////////////////////Function in Use////////////////////////////////////////////////////////
 
@@ -197,6 +197,45 @@ function listTransactions(merchantID, startDate, endDate) {
     return new Promise((resolve, reject) => {
         client.queryDocuments(collectionUrltransactionDetail,
             "SELECT * FROM c where c.merchant_id = '" + merchantID + "' and c.transaction_detail = 'Sucessful - Purchase'").toArray((err, results) => {
+                if (err) {
+                    console.log(JSON.stringify(err));
+                    resolve('-1');
+                }
+                else {
+                    const [startday, startmonth, startyear] = startDate.split("/")
+                    const [endday, endmonth, endyear] = endDate.split("/")
+                    const startday1 = new Date(startyear, startmonth - 1, startday)
+                    const endday1 = new Date(endyear, endmonth - 1, endday)
+                    var counter = null;
+                    if (results.length < 1) {
+                        console.log("No data found");
+                        resolve('-1');
+                        return;
+                    }
+                    for (let result of results) {
+                        const [day, month, year] = result.dateOnly.split("/")
+                        const transactionDate = new Date(year, month - 1, day);
+                        if (transactionDate >= startday1 && transactionDate <= endday1) {
+                            console.log("yay");
+                            console.log("Transactions from "+startDate+" to "+endDate);
+                            console.log(result);
+                            counter = 1;
+                        }
+                        
+                    }
+                    if (counter == null){
+                        console.log("No Transaction found within selected dates!");
+                    }
+                    resolve();
+                }
+            });
+    });
+};
+
+function listRefundedTransactions(merchantID, startDate, endDate) {
+    return new Promise((resolve, reject) => {
+        client.queryDocuments(collectionUrltransactionDetail,
+            "SELECT * FROM c where c.merchant_id = '" + merchantID + "' and c.transaction_detail = 'Refund - Purchase'").toArray((err, results) => {
                 if (err) {
                     console.log(JSON.stringify(err));
                     resolve('-1');
