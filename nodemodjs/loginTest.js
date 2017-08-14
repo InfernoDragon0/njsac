@@ -14,21 +14,29 @@ var config =
         }
     }
 var connection = new Connection(config);
+module.exports.SQLqueryDatabaseTest=SQLqueryDatabaseTest;
+
+
+
+
 
 // Attempt to connect and execute queries if connection goes through
+
+function SQLqueryDatabaseTest(){
 connection.on('connect', function (err) {
     if (err) {
         console.log(err)
     }
     else {
-        // queryDatabaseTest();
-        queryLogin('testUserName','tesdsdstPassWord');
-        // createNewAdmin("testUserName","testPassWord");
-    }
-}
-);
+        queryDatabaseTest();
+    }});
+};
+
+SQLqueryDatabaseTest();
+
 
 function queryDatabaseTest() {
+    
     console.log('Reading rows from the Table...');
 
     // Read all rows from table
@@ -50,6 +58,7 @@ function queryDatabaseTest() {
 
 ///////////////////////////////////FUNCTIONS IN USE///////////////////////////////////////
 function queryLogin(loginUser, loginPass) {
+    var connection = new Connection(config);
     request = new Request(
         "select * from jpay.adminaccount where adminName ='" + loginUser + "' and adminPassword ='" + loginPass + "'",
         function (err, rowCount, rows) {
@@ -73,6 +82,7 @@ function queryLogin(loginUser, loginPass) {
 
 
 function createNewAdmin(newUser, newPass) {
+    var connection = new Connection(config);
     request = new Request('select * from jpay.adminaccount',
         function (err, rowCount, rows) {
             var newId = rowCount + 1;
