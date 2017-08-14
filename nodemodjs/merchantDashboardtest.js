@@ -9,59 +9,74 @@ const collectionUrltransactionDetail = `${databaseUrl}/colls/transactionDetail`;
 
 // counterMerchantOwing('123');
 // addRefund('12345','123','Refundment','-100','OrderIDNotInUse');
-// listTranscaations('123',null,null);  
-tester();
+listTransactions('123','1/8/2017','15/8/2017');  
+// tester();
 
 
 
 
 
-function tester (){
-let now = new Date();
-let now1 = new Date();
-let now2 =  Date();
-var test;
-date.format(now, 'YYYY/MM/DD',test);
-date.format(now1, 'HH:mm:ss');
-console.log (now);
-console.log(now1);
-console.log(now2);
-console.log(test);
-var today = new Date();
-var dd = today.getDate();
-var mm = today.getMonth()+1; //January is 0!
+function tester() {
+    let now = new Date();
+    let now1 = new Date();
+    let now2 = Date();
+    var test;
+    // date.format(now, 'YYYY/MM/DD', test);
+    // date.format(now1, 'HH:mm:ss');
+    // console.log(now);
+    // console.log(now1);
+    // console.log(now2);
+    // console.log(test);
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1;
 
-var yyyy = today.getFullYear();
-if(dd<10){
-    dd='0'+dd;
-} 
-if(mm<10){
-    mm='0'+mm;
-} 
-var today = dd+'/'+mm+'/'+yyyy;
+    var yyyy = today.getFullYear();
+    if (dd < 10) {
+        dd = '0' + dd;
+    }
+    if (mm < 10) {
+        mm = '0' + mm;
+    }
+    var today = dd + '/' + mm + '/' + yyyy;
 
-if (14/08/2017 <= 14/08/2017){
-    console.log("yay");
-}
-else{
-    console.log("nah");
-}
+    var parts = 'today'.split('/');
+    var mydate = new Date(parts[2], parts[1] - 1, parts[0]);
+    // console.log (parts);
+    var test5 = Date.parse(today);
+    var test6 = Date.parse(14 / 8 / 2017);
+    var lala = '14/8/2017'
+    const [day, month, year] = lala.split("/")
+    const testday = new Date(year, month - 1, day)
+    const startday = new Date(2017, 8 - 1, 15)
+    const endday = new Date(2017, 8 - 1, 17)
+    // console.log (test5);
+    // console.log (test6);
+    console.log('testday :' + testday);
+    console.log('startday :' + startday);
+    console.log('endday :' + endday);
+    if (testday >= startday && testday <= endday) {
+        console.log("yay");
+    }
+    else {
+        console.log("nah");
+    }
 
-console.log(today);
+    console.log(today);
 };
 
 ///////////////////////////////////Function in Use////////////////////////////////////////////////////////
 
-function counterMerchantOwing(merchantID){
-countMerchantAmtPaid(merchantID);
-countMerchantAmtUnPaid(merchantID);
-countMerchantRefunds(merchantID);
+function counterMerchantOwing(merchantID) {
+    countMerchantAmtPaid(merchantID);
+    countMerchantAmtUnPaid(merchantID);
+    countMerchantRefunds(merchantID);
 };
 
 function countMerchantAmtPaid(merchantID) {
     return new Promise((resolve, reject) => {
         client.queryDocuments(collectionUrltransactionDetail,
-            "SELECT * FROM c where c.merchant_id = '"+merchantID+"' and c.transaction_detail = 'Sucessful - Purchase'" ).toArray((err, results) => {
+            "SELECT * FROM c where c.merchant_id = '" + merchantID + "' and c.transaction_detail = 'Sucessful - Purchase'").toArray((err, results) => {
                 if (err) {
                     console.log(JSON.stringify(err));
                     resolve('-1');
@@ -78,8 +93,8 @@ function countMerchantAmtPaid(merchantID) {
                         amountOwe = amountOwe + parseInt(result["amount"]);
                         counter = counter + 1;
                     }
-                    console.log(" Total Number of Paid Sales : "+counter);
-                    console.log(" Total Paid Amount owed to merchant : SGD$"+amountOwe);
+                    console.log(" Total Number of Paid Sales : " + counter);
+                    console.log(" Total Paid Amount owed to merchant : SGD$" + amountOwe);
                     resolve(amountOwe);
                 }
             });
@@ -89,7 +104,7 @@ function countMerchantAmtPaid(merchantID) {
 function countMerchantAmtUnPaid(merchantID) {
     return new Promise((resolve, reject) => {
         client.queryDocuments(collectionUrltransactionDetail,
-            "SELECT * FROM c where c.merchant_id = '"+merchantID+"' and c.transaction_detail = 'Pending - Purchase'").toArray((err, results) => {
+            "SELECT * FROM c where c.merchant_id = '" + merchantID + "' and c.transaction_detail = 'Pending - Purchase'").toArray((err, results) => {
                 if (err) {
                     console.log(JSON.stringify(err));
                     resolve('-1');
@@ -106,8 +121,8 @@ function countMerchantAmtUnPaid(merchantID) {
                         amountOwe = amountOwe + parseInt(result["amount"]);
                         counter = counter + 1;
                     }
-                    console.log(" Total Number of Unpaid Sales : "+counter);
-                    console.log(" Total Unpaid Amount owed to merchant : SGD$"+amountOwe);
+                    console.log(" Total Number of Unpaid Sales : " + counter);
+                    console.log(" Total Unpaid Amount owed to merchant : SGD$" + amountOwe);
                     resolve(amountOwe);
                 }
             });
@@ -117,7 +132,7 @@ function countMerchantAmtUnPaid(merchantID) {
 function countMerchantRefunds(merchantID) {
     return new Promise((resolve, reject) => {
         client.queryDocuments(collectionUrltransactionDetail,
-            "SELECT * FROM c where c.merchant_id = '"+merchantID+"' and c.transaction_detail = 'Refund - Purchase'").toArray((err, results) => {
+            "SELECT * FROM c where c.merchant_id = '" + merchantID + "' and c.transaction_detail = 'Refund - Purchase'").toArray((err, results) => {
                 if (err) {
                     console.log(JSON.stringify(err));
                     resolve('-1');
@@ -134,8 +149,8 @@ function countMerchantRefunds(merchantID) {
                         amountOwe = amountOwe + parseInt(result["amount"]);
                         counter = counter + 1;
                     }
-                    console.log(" Total Number of Refunded Sales : "+counter);
-                    console.log(" Total Refunded Sale : SGD$"+amountOwe);
+                    console.log(" Total Number of Refunded Sales : " + counter);
+                    console.log(" Total Refunded Sale : SGD$" + amountOwe);
                     resolve(amountOwe);
                 }
             });
@@ -177,34 +192,44 @@ function addRefund(customer_id, merchant_id, btTransaction_id, amount, order_id)
             });
     });
 };
-
-function listTranscaations(merchantID,startDate,endDate){
+// date input dd/mm/yyyy
+function listTransactions(merchantID, startDate, endDate) {
     return new Promise((resolve, reject) => {
         client.queryDocuments(collectionUrltransactionDetail,
-            "SELECT * FROM c where c.merchant_id = '"+merchantID+"' and c.transaction_detail = 'Sucessful - Purchase'").toArray((err, results) => {
+            "SELECT * FROM c where c.merchant_id = '" + merchantID + "' and c.transaction_detail = 'Sucessful - Purchase'").toArray((err, results) => {
                 if (err) {
                     console.log(JSON.stringify(err));
                     resolve('-1');
                 }
                 else {
+                    const [startday, startmonth, startyear] = startDate.split("/")
+                    const [endday, endmonth, endyear] = endDate.split("/")
+                    const startday1 = new Date(startyear, startmonth - 1, startday)
+                    const endday1 = new Date(endyear, endmonth - 1, endday)
+                    var counter = null;
                     if (results.length < 1) {
                         console.log("No data found");
                         resolve('-1');
                         return;
                     }
-                    var dates = new Array;
-                    var counter= -1;
                     for (let result of results) {
-                        moment(result.datetime).format('L');
-                        counter = counter + 1
-                        dates[counter]=result.datetime;
+                        const [day, month, year] = result.dateOnly.split("/")
+                        const transactionDate = new Date(year, month - 1, day);
+                        if (transactionDate >= startday1 && transactionDate <= endday1) {
+                            console.log("yay");
+                            console.log("Transactions from "+startDate+" to "+endDate);
+                            console.log(result);
+                            counter = 1;
+                        }
                         
                     }
-                    console.log(dates);
+                    if (counter == null){
+                        console.log("No Transaction found within selected dates!");
+                    }
                     resolve();
                 }
             });
-});
+    });
 };
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
