@@ -3,7 +3,7 @@ var path = require("path"); //pathing system
 var bodyParser = require('body-parser'); //parse POST data
 var session = require('express-session'); //temporary to store sensitive data, see if theres better way
 var express = require('express'); //express is good
-var port = 5000;
+var port = 5001;
 // var http = require('http');
 // var fs = require('fs');
 var app = express();
@@ -61,19 +61,65 @@ app.get('/login', function (req, res) { //base page
     res.render(path.join(__dirname + '/login.html'));
 });
 
+app.get('/merchant', function (req, res) { //base page
+    res.render(path.join(__dirname + '/merchant.html'));
+});
+
+app.get('/transactions', function (req, res) { //base page
+    res.render(path.join(__dirname + '/transactions.html'));
+});
+
+app.get('/login-error', function (req, res) { //base page
+    res.render(path.join(__dirname + '/login-error.html'));
+});
+
+// app.post('/merchant'),function(req,res){
+//     if(!req.body.merchantName){
+//         res.writeHead(200, {'Content-Type':'text/html'});
+//         res.write();
+//         res.end();
+//         }else{
+//     if(!req.body.merchantHq){
+    
+//         }else{
+//     if(!req.body.merchantLine){
+
+//         }else{
+//     if(!req.body.merchantEmail){
+    
+//         }else{
+
+//     if(!req.body.merchantFax){
+
+//     }
+
+// }
+
 app.get('/dashboard', function (req, res) { //base page
+    // var mSearch = require('./nodemodjs/searchdb');
+    // mSearch.queryDb(req.body.merchant);
     res.render(path.join(__dirname + '/dashboard.html'));
 });
 
 app.post('/login', function(req,res){
     if (!req.body) {return res.sendStatus(400)
     }else{
-    console.log(req.body.username);
-    console.log(req.body.password);
     console.log('Get username and password successfully!');
 
     var mLogin = require('./nodemodjs/login');
-    var logReturn = mLogin.queryLogin(req.body.username,req.body.password);
+    // query database for login username and password
+    var loginPromise = mLogin.queryLogin(req.body.username,req.body.password);
+
+    loginPromise.then(function(value){
+        if(value === 1){
+            console.log('logging in now...');
+            res.render(path.join(__dirname + '/dashboard.html'));
+        }else{
+            console.log('fail to login, returning to login page...');
+            res.render(path.join(__dirname + '/login-error.html'));
+            // setTimeout(function(){res.render(path.join(__dirname + '/login.html'));},3000);
+        }
+    });
     }
 });
 

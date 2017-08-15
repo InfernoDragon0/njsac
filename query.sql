@@ -177,7 +177,8 @@ GO
 CREATE TABLE jpay.settlementrecords
 (
     settlementId INT NOT NULL PRIMARY KEY, -- primary key column
-    settleDate DATETIME NOT NULL,
+    settleDate [NVARCHAR](50) NOT NULL,
+    confirmDate [NVARCHAR](50),
     merchantId INT NOT NULL,
     settleAmount [NVARCHAR](50) NOT NULL
     -- specify more columns here
@@ -207,10 +208,10 @@ GO
 -- Create the table in the specified schema
 CREATE TABLE jpay.transactions
 (
-    transactionsId INT NOT NULL PRIMARY KEY, -- primary key column
+    transactionsId [NVARCHAR](50) NOT NULL PRIMARY KEY, -- primary key column
     brainId [NVARCHAR](50) NOT NULL,
-    merchantId INT NOT NULL,
-    branchId INT NOT NULL,
+    merchantId [NVARCHAR](50) NOT NULL,
+    branchId [NVARCHAR](50) NOT NULL,
     customerId [NVARCHAR](50) NOT NULL,
     transactDate [NVARCHAR](50) NOT NULL,
     transactDesc [NVARCHAR](200) NOT NULL,

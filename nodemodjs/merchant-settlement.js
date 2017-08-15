@@ -1,10 +1,8 @@
-
-
-function queryDb(propT) {
+function querySettle() {
 var Connection = require('tedious').Connection;
 var Request = require('tedious').Request;
 
-var query = "select * from jpay.adminaccount where adminName = '"+propT+"'";
+var query = "select settlementrecords.settlementId, merchantinfo.merchantId, merchantinfo.merchantName, settlementrecords.settleDate, settlementrecords.confirmDate, settlementrecords.settleAmount from jpay.settlementrecords, jpay.merchantinfo where settlementrecords.merchantId = merchantinfo.merchantId;";
 
 // Create connection to database
 var config =
@@ -46,4 +44,4 @@ connection.on('connect', function (err) {
 );
 };
 
-module.exports.queryDb = queryDb;
+module.exports.querySettle = querySettle;

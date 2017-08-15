@@ -9,7 +9,7 @@ const collectionUrltransactionDetail = `${databaseUrl}/colls/transactionDetail`;
 
 // counterMerchantOwing('123');
 // addRefund('12345','123','Refundment','-100','OrderIDNotInUse');
-// listTransactions('123','15/8/2017','16/8/2017');  
+listTransactions('123',null,null);  
 // tester();
 
 
