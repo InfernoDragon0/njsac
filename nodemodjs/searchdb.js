@@ -28,8 +28,7 @@ connection.on('connect', function (err) {
     else {
     console.log('Connection Successful!')
     request = new Request(
-        query, 
-        function (err, rowCount, rows) {
+        query, function (err, rowCount, rows) {
             console.log(rowCount + ' row(s) returned');
             process.exit();
         }
@@ -45,5 +44,7 @@ connection.on('connect', function (err) {
 }
 );
 };
+
+// queryDb('sagesg');
 
 module.exports.queryDb = queryDb;

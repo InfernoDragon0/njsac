@@ -3,7 +3,7 @@ var path = require("path"); //pathing system
 var bodyParser = require('body-parser'); //parse POST data
 var session = require('express-session'); //temporary to store sensitive data, see if theres better way
 var express = require('express'); //express is good
-var port = 5001;
+var port = 3000;
 // var http = require('http');
 // var fs = require('fs');
 var app = express();
@@ -69,9 +69,22 @@ app.get('/transactions', function (req, res) { //base page
     res.render(path.join(__dirname + '/transactions.html'));
 });
 
-app.get('/login-error', function (req, res) { //base page
-    res.render(path.join(__dirname + '/login-error.html'));
+app.get('/createadmin', function (req, res) { //base page
+    res.render(path.join(__dirname + '/createadmin.html'));
 });
+
+app.post('/createadmin', function(req, res){
+    if (!req.body) {return res.sendStatus(400)
+    }
+    else{
+        var mAdmin = require('./nodemodjs/createadmin');
+        var createPromise = mAdmin.createAdmin(req.body.adminName, req.body.adminPass);
+        createPromise.then(function(value){
+        res.send("<script>alert('"+value+"')</script>");
+        // --page continues to load
+        });
+    }
+})
 
 // app.post('/merchant'),function(req,res){
 //     if(!req.body.merchantName){
@@ -115,15 +128,21 @@ app.post('/login', function(req,res){
             console.log('logging in now...');
             res.render(path.join(__dirname + '/dashboard.html'));
         }else{
-            console.log('fail to login, returning to login page...');
-            res.render(path.join(__dirname + '/login-error.html'));
-            // setTimeout(function(){res.render(path.join(__dirname + '/login.html'));},3000);
+            console.log('fail to login...');
+            res.render(path.join(__dirname + '/login.html'));
+
+            // --- put pop up alert if fail to login here ---
         }
     });
     }
+    if (document.getElementById='link'){
+        res.render(path.join(__dirname + '/createadmin.html'));
+    }else{
+        console.log(error)
+    }
 });
 
-console.log('server at localhost:5000');
+console.log('server at localhost:3000');
 
 // function staticFile (response,filepath, contentType){
 //     fs.readFile(filepath,function(error,data){

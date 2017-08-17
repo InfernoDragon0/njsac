@@ -213,8 +213,8 @@ CREATE TABLE jpay.transactions
     merchantId [NVARCHAR](50) NOT NULL,
     branchId [NVARCHAR](50) NOT NULL,
     customerId [NVARCHAR](50) NOT NULL,
-    transactDate [NVARCHAR](50) NOT NULL,
-    transactDesc [NVARCHAR](200) NOT NULL,
+    transactDate [NVARCHAR](200) NOT NULL,
+    transactDesc [NVARCHAR](50) NOT NULL,
     transactAmt [NVARCHAR](50) NOT NULL,
     transactCheck [NCHAR](1) NOT NULL
 

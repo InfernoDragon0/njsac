@@ -39,7 +39,6 @@ function queryLogin(loginUser, loginPass) {
                         }
                         resolve(rowCount);
                         reject(rowCount);
-                        // process.exit();
                     }
 
                 );
@@ -52,8 +51,7 @@ function queryLogin(loginUser, loginPass) {
         }
         )
     }) // close promise
-    connection.exit();
 };
 
 module.exports.queryLogin = queryLogin;
-//
+
