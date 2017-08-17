@@ -45,6 +45,6 @@ connection.on('connect', function (err) {
 );
 };
 
-// queryDb('sagesg');
+queryDb('sagesg');
 
 module.exports.queryDb = queryDb;
