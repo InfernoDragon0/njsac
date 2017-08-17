@@ -222,6 +222,18 @@ CREATE TABLE jpay.transactions
 );
 GO
 
+-- Drop the table 'transactions' in schema 'jpay'
+IF EXISTS (
+    SELECT *
+        FROM sys.tables
+        JOIN sys.schemas
+            ON sys.tables.schema_id = sys.schemas.schema_id
+    WHERE sys.schemas.name = N'jpay'
+        AND sys.tables.name = N'transactions'
+)
+    DROP TABLE jpay.transactions
+GO
+
 -- Create a new table called 'refunds' in schema 'jpay'
 -- Drop the table if it already exists
 IF OBJECT_ID('jpay.refunds', 'U') IS NOT NULL
