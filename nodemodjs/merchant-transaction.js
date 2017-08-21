@@ -2,7 +2,7 @@ function querymerchantTransactions() {
 var Connection = require('tedious').Connection;
 var Request = require('tedious').Request;
 
-var query = "select transactions.transactionsId,  merchantinfo.merchantName, branchinfo.branchLocation, transactions.transactDate, transactions.transactDesc, transactions.transactAmt from jpay.transactions, jpay.merchantinfo, jpay.branchinfo where transactions.merchantId = merchantinfo.merchantId and transactions.branchId = branchinfo.branchId and branchinfo.merchantId = transactions.merchantId and transactions.transactCheck = 'N'";
+var query = "select transactions.transactionsId,  merchantinfo.merchantName, branchinfo.branchLocation, transactions.transactDate, transactions.transactDesc, transactions.transactAmt from jpay.transactions, jpay.merchantinfo, jpay.branchinfo where transactions.merchantId = merchantinfo.merchantId and transactions.branchId = branchinfo.branchNo and branchinfo.branchId = transactions.merchantId and transactions.transactCheck = 'N'";
 
 // Create connection to database
 var config =
@@ -44,4 +44,6 @@ connection.on('connect', function (err) {
 );
 };
 
-module.exports.querymerchantTransaction = querymerchantTransaction;
+querymerchantTransactions();
+
+// module.exports.querymerchantTransactions = querymerchantTransactions;
