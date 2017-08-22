@@ -50,8 +50,8 @@ function createAdmin(user, pass, read, write, status) { // parameters for creati
                                 connection.close();
                             }
                             else {
-                            var newId = String(rowCount1 + 1); // create new ID when all id taken
-                            insertAdmin(newId, user, pass, read, write, status);// call create function    
+                                var newId = String(rowCount1 + 1); // create new ID when all id taken
+                                insertAdmin(newId, user, pass, read, write, status);// call create function    
                             };
 
                         });
@@ -64,10 +64,10 @@ function createAdmin(user, pass, read, write, status) { // parameters for creati
                                 id = parseInt(String(column.value));// convert value to string;
                                 idCheck++;
                                 if (id === idCheck) {//id already used
-                                }if (id != idCheck){
+                                } if (id != idCheck) {
                                     console.log('Creating admin...\n');
                                     insertAdmin(String(idCheck), user, pass, read, write, status);// call create function
-                                }else{
+                                } else {
                                     console.log('id already in used\n')
                                 }
                             });
