@@ -1,6 +1,6 @@
 
 
-function createAdmin(newUser, newPass) {
+function createAdmin(user, pass, privileges) {
     return new Promise((resolve, reject) => {
     var Connection = require('tedious').Connection;
     var Request = require('tedious').Request;
@@ -25,32 +25,31 @@ function createAdmin(newUser, newPass) {
             console.log(err)
         }
         else {
-            console.log('Connection Successful!')
-            requestCheck = new Request("select * from jpay.adminaccount where adminName= '"+newUser+"'", function (err,rowCount,rows){
+            console.log('Connection Successful!\n')
+            requestCheck = new Request("select * from jpay.adminaccount where adminName= '"+user+"'", function (err, rowCount, rows){
                 if (rowCount >= 1){
                     console.log('Name is already taken');
-                    resolve('Admin name is already taken');
-                    // process.exit();
+                    resolve();
+                    process.exit();
                 }else{
-                    request = new Request('select * from jpay.adminaccount',
-                function (err1, rowCount1, rows1) {
-                    var newId = rowCount1 + 1;
-                    // console.log(newId);
-                    var user = newUser;
-                    var pass = newPass;
-                    createNewAdmin2(newId, user, pass);
-                    console.log('Creating admin...');
+                    request = new Request('select * from jpay.adminaccount', function (err1, rowCount1, rows1) {
+                    var id = rowCount1 + 1;
+                    // console.log(id);
+                    createNewAdmin2(id, user, pass, privileges);
+                    console.log('Creating admin...\n');
                     resolve('Admin successfully added into database');
                     }
             );
             connection.execSql(request);
-            function createNewAdmin2(newId2, newUser2, newPass2) {
-                request1 = new Request("insert into jpay.adminaccount values ('" + newId2 + "','" + newUser2 + "','" + newPass2 + "')",
+
+            function createNewAdmin2(id2, user2, pass2, privileges2) {
+                request1 = new Request("insert into jpay.adminaccount values ('" + id2 + "','" + user2 + "','" + pass2 + "','" + privileges2 + "')",
                     function (err, rowCount, rows) {
                         // console.log('Error 2: ' + err);
-                        console.log('Admin Creation successful');
-                        console.log("Account ID = " + newId2 + " \ Username = " + newUser2 + " \ Password = " + newPass2)
-                        // process.exit();
+                        console.log('Admin Creation successful\n');
+                        console.log("Account ID = " + id2 + " \ Username = " + user2 + " \ Password = " + pass2)
+                        reject();
+                        process.exit();
                     }
                 );
                 connection.execSql(request1);
@@ -63,7 +62,7 @@ function createAdmin(newUser, newPass) {
     )
 }) // close promise
 };
-// createAdmin('test', 'sagesg');
+createAdmin('help', 'sagesg','1');
 
-module.exports.createAdmin = createAdmin;
+// module.exports.createAdmin = createAdmin;
 

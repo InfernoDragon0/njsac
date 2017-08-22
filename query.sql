@@ -48,9 +48,36 @@ CREATE TABLE jpay.adminaccount
 (
     accountId [NVARCHAR](50) NOT NULL PRIMARY KEY, -- primary key column
     adminName [NVARCHAR](50) NOT NULL,
-    adminPassword [NVARCHAR](50) NOT NULL
+    adminPassword [NVARCHAR](50) NOT NULL,
+    adminRead [NCHAR](1) ,
+    adminWrite [NCHAR](1) ,
+    adminStatus  INT
     -- specify more columns here
 );
+GO
+
+-- Drop the table 'adminaccount' in schema 'jpay'
+IF EXISTS (
+    SELECT *
+        FROM sys.tables
+        JOIN sys.schemas
+            ON sys.tables.schema_id = sys.schemas.schema_id
+    WHERE sys.schemas.name = N'jpay'
+        AND sys.tables.name = N'adminaccount'
+)
+    DROP TABLE jpay.adminaccount
+GO
+
+-- Drop the table 'adminaccount' in schema 'jpay'
+IF EXISTS (
+    SELECT *
+        FROM sys.tables
+        JOIN sys.schemas
+            ON sys.tables.schema_id = sys.schemas.schema_id
+    WHERE sys.schemas.name = N'jpay'
+        AND sys.tables.name = N'adminaccount'
+)
+    DROP TABLE jpay.adminaccount
 GO
 
 
@@ -144,7 +171,7 @@ GO
 CREATE TABLE jpay.branchinfo
 (
     branchId INT NOT NULL PRIMARY KEY, -- primary key column
-    merchantId INT NOT NULL,
+    branchNo INT NOT NULL,
     branchLocation [NVARCHAR](50) NOT NULL,
     branchTelephone [NVARCHAR](50) NOT NULL,
     branchEmail [NVARCHAR](50)
