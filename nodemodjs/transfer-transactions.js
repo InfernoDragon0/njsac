@@ -5,7 +5,7 @@ function transferTransactions() {
 
     var config =
         {
-            userName: 'accountant', // database owner namem
+            userName: 'accountant', // database owner name
             password: 'Abcd1234', // database owner password
             server: 'jedb.database.windows.net', // database server host
             options:
@@ -102,7 +102,7 @@ function transferSQL(transactionId2, customerId2, merchantId2, branchId2, braint
 
     var config =
         {
-            userName: 'accountant', // database owner namem
+            userName: 'accountant', // database owner name
             password: 'Abcd1234', // database owner password
             server: 'jedb.database.windows.net', // database server host
             options:
@@ -121,6 +121,7 @@ function transferSQL(transactionId2, customerId2, merchantId2, branchId2, braint
         } else {
 
             requestTransfer = new Request(
+                //add value into the tables
                 "insert into jpay.transactions values ('" + transactionId2 + "','" + customerId2 + "','" + merchantId2 + "','" + branchId2 + "', '" + braintreeId2 + "', '" + transactDate2 + "', '" + transactAmt2 + "', '" + transactDesc2 + "', '" + transactStatus2 + "', '" + transactCheck2 + "')", function (err, rowCount, rows) {
                 process.exit();
                 });

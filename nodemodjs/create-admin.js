@@ -7,7 +7,7 @@ function createAdmin(user, pass, read, write, status) { // parameters for creati
 
         var config =
             {
-                userName: 'accountant', // database owner namem
+                userName: 'accountant', // database owner name
                 password: 'Abcd1234', // database owner password
                 server: 'jedb.database.windows.net', // database server host
                 options:
