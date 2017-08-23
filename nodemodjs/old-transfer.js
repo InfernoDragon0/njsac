@@ -54,9 +54,7 @@ function transferDb() {
                             // console.log(tid);
                             var counter = 0;
                             for (let result of results) {
-                                // $myarray = [result["transaction_id"], result["btTransaction_id"], result["merchant_id"], "", result["customer_id"]
-                                //     , result["datetime"], result["order_id"], result["amount"], "N"];
-                                // console.log(myarray);
+
                                 var transactionsId = result["transaction_id"];
                                 var customerId = result["customer_id"];
                                 var merchantId = result["merchant_id"];
@@ -77,7 +75,6 @@ function transferDb() {
                             };
                             console.log(counter +" transactions transferred");
                         };
-                        process.exit();
                     });
             };
 
@@ -86,14 +83,11 @@ function transferDb() {
     });
 };
 
-
 transferDb();
 
 function addtransact(transactionsId1, brainId1, merchantId1, branchId1, customerId1, transactDate1, transactDesc1, transactAmt1, transactCheck1) {
     var Connection = require('tedious').Connection;
     var Request = require('tedious').Request;
-
-    var query = "select transactionsId from jpay.transactions";
 
     // Create connection to database
     var config =

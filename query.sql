@@ -235,14 +235,15 @@ GO
 -- Create the table in the specified schema
 CREATE TABLE jpay.transactions
 (
-    transactionsId [NVARCHAR](50) NOT NULL PRIMARY KEY, -- primary key column
-    brainId [NVARCHAR](50) NOT NULL,
-    merchantId [NVARCHAR](50) NOT NULL,
-    branchId [NVARCHAR](50) NOT NULL,
+    transactionsId INT NOT NULL PRIMARY KEY, -- primary key column
     customerId [NVARCHAR](50) NOT NULL,
+    merchantId [NVARCHAR](50) NOT NULL,
+    branchId [NVARCHAR](50),
+    braintreeId [NVARCHAR](50) NOT NULL,
     transactDate [NVARCHAR](200) NOT NULL,
-    transactDesc [NVARCHAR](50) NOT NULL,
     transactAmt [NVARCHAR](50) NOT NULL,
+    transactDesc [NVARCHAR](50) NOT NULL,
+    transactType INT,
     transactCheck [NCHAR](1) NOT NULL
 
     -- specify more columns here
