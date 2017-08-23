@@ -31,15 +31,17 @@ function transferTransactions() {
                     if (rowCount == 0) {
                         console.log('there is no data in the table...\n')
                         retrieveCosmos('0');
+                    }else{
+                        retrieveCosmos('0');
                     }
                 });
 
-            requestTransactionId.on('row', function (columns) {// find the transaction id from the SQL
-                columns.forEach(function (column) {
-                    var id = column.value;
-                    retrieveCosmos(id);
-                });
-            });
+            // requestTransactionId.on('row', function (columns) {// find the transaction id from the SQL
+            //     columns.forEach(function (column) {
+            //         var id = column.value;
+            //         retrieveCosmos(id);
+            //     });
+            // });
             connection.execSql(requestTransactionId);// execute sql query
             
         }
@@ -89,8 +91,8 @@ function retrieveCosmos(id1) { //get the results from cosmos database
                         // transferSQL (myarray);
                     };
                 };
-                // console.log(transactionsId + '\n');
                 console.log(counter + ' transactions in database\n');
+                setTimeout(function(){process.exit();},1000);// need to set timeout else closes prematurely
             };
         });
 };
@@ -123,7 +125,6 @@ function transferSQL(transactionId2, customerId2, merchantId2, branchId2, braint
             requestTransfer = new Request(
                 //add value into the tables
                 "insert into jpay.transactions values ('" + transactionId2 + "','" + customerId2 + "','" + merchantId2 + "','" + branchId2 + "', '" + braintreeId2 + "', '" + transactDate2 + "', '" + transactAmt2 + "', '" + transactDesc2 + "', '" + transactStatus2 + "', '" + transactCheck2 + "')", function (err, rowCount, rows) {
-                process.exit();
                 });
             connection.execSql(requestTransfer);
         }
