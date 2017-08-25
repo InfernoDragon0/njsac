@@ -38,7 +38,7 @@ function confirmPayment(column1, item1) {// update transaction Check
     );
 };
 
-confirmPayment('merchantId', '123'); // add column and item to update transactions to paid
+// confirmPayment('merchantId', '123'); // add column and item to update transactions to paid
 
 function revertConfirm(column1, item1) {// update transaction Check
 
