@@ -1,8 +1,9 @@
 
+function queryLogin(loginUser, loginPass) { //require username and password to login
 
-function queryLogin(loginUser, loginPass) {
-    return new Promise((resolve, reject) => {
-        var Connection = require('tedious').Connection;
+    return new Promise((resolve, reject) => { // return to main.js
+
+        var Connection = require('tedious').Connection; //mssql library module
         var Request = require('tedious').Request;
 
         // Create connection to database
