@@ -79,7 +79,13 @@ function retrieveCosmos(id1) { //get the results from cosmos database
                     var transactDate = result['datetime'];
                     var transactAmt = result['amount'];
                     var transactDesc = result['order_id'];
-                    var transactStatus = ''; //haven't assigned a status
+                    
+                    if(braintreeId == 'Payment Pending'){
+                    var transactStatus = '0'; //assign 0 for transactions pending payment
+                    }else{
+                        var transactStatus = '1'; //assign 1 for transactions already in payment
+                    }
+                    
                     var transactCheck = 'N';
 
                     if (transactionsId === id1) {
@@ -131,4 +137,4 @@ function transferSQL(transactionId2, customerId2, merchantId2, branchId2, braint
     });
 };
 
-transferTransactions();
+// transferTransactions(); // activate transfer function
