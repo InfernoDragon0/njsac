@@ -295,7 +295,23 @@ CREATE TABLE jpay.chargebacks
 );
 GO
 
-
+-- Create a new table called 'customerDetails' in schema 'jpay'
+-- Drop the table if it already exists
+IF OBJECT_ID('jpay.customerDetails', 'U') IS NOT NULL
+DROP TABLE jpay.customerDetails
+GO
+-- Create the table in the specified schema
+CREATE TABLE jpay.customerDetails
+(
+    customerId INT NOT NULL PRIMARY KEY, -- primary key column
+    customerToken [NVARCHAR](50) NOT NULL,
+    walletId [NVARCHAR](50) NOT NULL,
+    walletAmt [NVARCHAR](50) NOT NULL,
+    pinNum [NVARCHAR](100) NOT NULL,
+    customerStatus [VARCHAR](1)
+    -- specify more columns here
+);
+GO
 
 
 
