@@ -237,8 +237,8 @@ CREATE TABLE jpay.transactions
 (
     transactionsId INT NOT NULL PRIMARY KEY, -- primary key column
     customerId [NVARCHAR](50) NOT NULL,
-    merchantId [NVARCHAR](50) NOT NULL,
-    branchId [NVARCHAR](50),
+    merchantId INT NOT NULL,
+    branchId INT,
     braintreeId [NVARCHAR](50) NOT NULL,
     transactDate [NVARCHAR](200) NOT NULL,
     transactAmt [NVARCHAR](50) NOT NULL,
